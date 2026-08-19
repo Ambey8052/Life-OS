@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;1,500&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0d10;
+  --surface: #12161b;
+  --surface-raised: #171c22;
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #e8ebee;
+  --text-muted: #8b96a3;
+
+  --primary: #17b399;
+  --primary-strong: #0f8c78;
+  --primary-on: #04120f;
+  --warm: #e8944a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif-display {
+  font-family: "Newsreader", Georgia, serif;
+}
+
+::selection {
+  background: rgba(23, 179, 153, 0.35);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+  background-clip: content-box;
+}
+
+.text-primary {
+  color: var(--primary);
+}
