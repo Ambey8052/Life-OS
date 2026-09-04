@@ -1,23 +1,24 @@
-import mongoose from "mongoose";
-import Opportunity from "../models/Opportunity.js";
+import { supabase } from "../config/supabase.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const FUNNEL_STAGES = ["applied", "screening", "assessment", "interview", "offer"];
 
 export const getSummary = asyncHandler(async (req, res) => {
-  const userId = new mongoose.Types.ObjectId(req.userId);
+  const { data: rows, error } = await supabase
+    .from("opportunities")
+    .select("status, category, skills")
+    .eq("user_id", req.userId);
+  if (error) throw error;
 
-  const [byStatus, byCategory, opportunities] = await Promise.all([
-    Opportunity.aggregate([{ $match: { userId } }, { $group: { _id: "$status", count: { $sum: 1 } } }]),
-    Opportunity.aggregate([{ $match: { userId } }, { $group: { _id: "$category", count: { $sum: 1 } } }]),
-    Opportunity.find({ userId }, "status skills"),
-  ]);
+  const statusCounts = {};
+  const categoryCounts = {};
+  for (const o of rows) {
+    statusCounts[o.status] = (statusCounts[o.status] || 0) + 1;
+    categoryCounts[o.category] = (categoryCounts[o.category] || 0) + 1;
+  }
 
-  const statusCounts = Object.fromEntries(byStatus.map((s) => [s._id, s.count]));
-  const categoryCounts = Object.fromEntries(byCategory.map((c) => [c._id, c.count]));
-
-  const total = opportunities.length;
-  const applications = opportunities.filter((o) => o.status !== "discovered" && o.status !== "saved").length;
+  const total = rows.length;
+  const applications = rows.filter((o) => o.status !== "discovered" && o.status !== "saved").length;
   const interviews = statusCounts.interview || 0;
   const offers = statusCounts.offer || 0;
   const accepted = statusCounts.accepted || 0;
@@ -25,14 +26,14 @@ export const getSummary = asyncHandler(async (req, res) => {
 
   const funnel = FUNNEL_STAGES.map((stage) => ({
     stage,
-    count: opportunities.filter((o) => {
+    count: rows.filter((o) => {
       const stageIndex = FUNNEL_STAGES.indexOf(o.status);
       return stageIndex >= FUNNEL_STAGES.indexOf(stage);
     }).length,
   }));
 
   const skillCounts = {};
-  for (const o of opportunities) {
+  for (const o of rows) {
     for (const skill of o.skills || []) {
       skillCounts[skill] = (skillCounts[skill] || 0) + 1;
     }

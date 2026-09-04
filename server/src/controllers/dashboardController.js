@@ -1,6 +1,7 @@
-import Opportunity from "../models/Opportunity.js";
+import { supabase } from "../config/supabase.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { computePriorityScore, scoreLabel } from "../utils/priorityScore.js";
+import { toOpportunityDTO } from "../utils/mappers.js";
 
 const ACTIVE_STATUSES = [
   "discovered",
@@ -14,16 +15,19 @@ const ACTIVE_STATUSES = [
 ];
 
 export const getToday = asyncHandler(async (req, res) => {
-  const opportunities = await Opportunity.find({
-    userId: req.userId,
-    status: { $in: ACTIVE_STATUSES },
-  });
+  const { data: rows, error } = await supabase
+    .from("opportunities")
+    .select("*")
+    .eq("user_id", req.userId)
+    .in("status", ACTIVE_STATUSES);
+  if (error) throw error;
+
+  const opportunities = rows.map(toOpportunityDTO);
 
   const scored = opportunities
-    .map((doc) => {
-      const obj = doc.toObject();
-      const score = computePriorityScore(obj);
-      return { ...obj, priorityScore: score, priorityLabel: scoreLabel(score) };
+    .map((o) => {
+      const score = computePriorityScore(o);
+      return { ...o, priorityScore: score, priorityLabel: scoreLabel(score) };
     })
     .sort((a, b) => b.priorityScore - a.priorityScore);
 

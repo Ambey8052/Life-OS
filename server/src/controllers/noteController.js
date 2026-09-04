@@ -1,34 +1,54 @@
-import Note from "../models/Note.js";
+import { supabase } from "../config/supabase.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { noteCreateSchema, noteUpdateSchema } from "../validators/noteValidators.js";
+import { toNoteDTO, fromNoteInput } from "../utils/mappers.js";
 
 export const listNotes = asyncHandler(async (req, res) => {
   const { q } = req.query;
-  const filter = { userId: req.userId };
-  if (q) filter.title = { $regex: q, $options: "i" };
 
-  const notes = await Note.find(filter).sort({ createdAt: -1 });
-  res.json(notes);
+  let query = supabase.from("notes").select("*").eq("user_id", req.userId);
+  if (q) query = query.ilike("title", `%${q}%`);
+  query = query.order("created_at", { ascending: false });
+
+  const { data, error } = await query;
+  if (error) throw error;
+  res.json(data.map(toNoteDTO));
 });
 
 export const createNote = asyncHandler(async (req, res) => {
   const data = noteCreateSchema.parse(req.body);
-  const note = await Note.create({ ...data, userId: req.userId });
-  res.status(201).json(note);
+  const { data: row, error } = await supabase
+    .from("notes")
+    .insert({ ...fromNoteInput(data), user_id: req.userId })
+    .select()
+    .single();
+  if (error) throw error;
+  res.status(201).json(toNoteDTO(row));
 });
 
 export const updateNote = asyncHandler(async (req, res) => {
   const data = noteUpdateSchema.parse(req.body);
-  const note = await Note.findOneAndUpdate({ _id: req.params.id, userId: req.userId }, data, {
-    new: true,
-    runValidators: true,
-  });
-  if (!note) return res.status(404).json({ error: "Note not found" });
-  res.json(note);
+  const { data: row, error } = await supabase
+    .from("notes")
+    .update(fromNoteInput(data))
+    .eq("id", req.params.id)
+    .eq("user_id", req.userId)
+    .select()
+    .maybeSingle();
+  if (error) throw error;
+  if (!row) return res.status(404).json({ error: "Note not found" });
+  res.json(toNoteDTO(row));
 });
 
 export const deleteNote = asyncHandler(async (req, res) => {
-  const note = await Note.findOneAndDelete({ _id: req.params.id, userId: req.userId });
-  if (!note) return res.status(404).json({ error: "Note not found" });
+  const { data, error } = await supabase
+    .from("notes")
+    .delete()
+    .eq("id", req.params.id)
+    .eq("user_id", req.userId)
+    .select("id")
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return res.status(404).json({ error: "Note not found" });
   res.status(204).send();
 });

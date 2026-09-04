@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CATEGORIES, STATUSES, PRIORITIES } from "../models/Opportunity.js";
+import { CATEGORIES, STATUSES, PRIORITIES } from "../constants.js";
 
 const interviewSchema = z
   .object({

@@ -11,8 +11,5 @@
     "dev:server": "npm run dev --workspace=server",
     "dev:client": "npm run dev --workspace=client",
     "install:all": "npm install"
-  },
-  "allowScripts": {
-    "mongodb-memory-server@11.2.0": true
   }
 }
