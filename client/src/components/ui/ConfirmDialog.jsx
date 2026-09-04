@@ -21,7 +21,7 @@ export default function ConfirmDialog({
           onClick={onCancel}
         >
           <motion.div
-            className="w-full max-w-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] p-6"
+            className="w-full max-w-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] p-5 sm:p-6"
             initial={{ opacity: 0, scale: 0.95, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 8 }}

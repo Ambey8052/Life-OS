@@ -88,7 +88,7 @@ export default function OpportunityFormModal({ opportunity, initialValues, onClo
       onClick={onClose}
     >
       <motion.div
-        className="w-full max-w-lg rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] p-6 max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-lg rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] p-5 sm:p-6 max-h-[90vh] overflow-y-auto"
         initial={{ opacity: 0, scale: 0.96, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 10 }}
@@ -112,7 +112,7 @@ export default function OpportunityFormModal({ opportunity, initialValues, onClo
               className={inputClass}
             />
           </Field>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Field label="Category">
               <select
                 value={form.category}
@@ -140,7 +140,7 @@ export default function OpportunityFormModal({ opportunity, initialValues, onClo
               </select>
             </Field>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Field label="Status">
               <select
                 value={form.status}
@@ -222,7 +222,7 @@ export default function OpportunityFormModal({ opportunity, initialValues, onClo
             </Field>
           )}
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Field label="Location">
               <input
                 value={form.location}
@@ -337,7 +337,7 @@ function CredentialField({ opportunity, value, onChange }) {
         <button
           type="button"
           onClick={() => setShowPassword((s) => !s)}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition"
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-white transition"
           aria-label={showPassword ? "Hide password" : "Show password"}
         >
           {showPassword ? <EyeOff size={15} strokeWidth={1.75} /> : <Eye size={15} strokeWidth={1.75} />}

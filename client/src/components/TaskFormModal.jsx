@@ -56,7 +56,7 @@ export default function TaskFormModal({ task, onClose }) {
       onClick={onClose}
     >
       <motion.div
-        className="w-full max-w-md rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] p-6"
+        className="w-full max-w-md rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] p-5 sm:p-6 max-h-[90vh] overflow-y-auto"
         initial={{ opacity: 0, scale: 0.96, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 10 }}
@@ -81,7 +81,7 @@ export default function TaskFormModal({ task, onClose }) {
               className={inputClass}
             />
           </Field>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <Field label="Due Date">
               <input
                 type="date"

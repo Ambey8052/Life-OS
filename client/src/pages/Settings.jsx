@@ -20,7 +20,7 @@ export default function Settings() {
 
       <div className="rounded-lg border border-[var(--border)] bg-white/[0.03] p-5">
         <p className="text-sm text-gray-400 mb-3">
-          Profile editing, notification preferences and the encrypted credential vault are on the roadmap.
+          Profile editing and notification preferences are on the roadmap.
         </p>
         <Button variant="secondary" onClick={logout}>
           Sign out
@@ -32,9 +32,9 @@ export default function Settings() {
 
 function Row({ label, value }) {
   return (
-    <div className="flex items-center justify-between text-sm">
-      <span className="text-gray-400">{label}</span>
-      <span className="text-white">{value || "—"}</span>
+    <div className="flex items-center justify-between gap-4 text-sm">
+      <span className="text-gray-400 shrink-0">{label}</span>
+      <span className="text-white truncate">{value || "—"}</span>
     </div>
   );
 }

@@ -52,7 +52,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen">
-      <header className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
+      <header className="max-w-5xl mx-auto px-4 sm:px-6 py-5 sm:py-6 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-md bg-[var(--primary)]/15 border border-[var(--primary)]/25 flex items-center justify-center">
             <Compass size={15} strokeWidth={2} className="text-[var(--primary)]" />
@@ -81,7 +81,7 @@ export default function Landing() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="max-w-3xl mx-auto px-6 pt-16 pb-16 text-center"
+        className="max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-12 sm:pb-16 text-center"
       >
         <motion.div
           variants={item}
@@ -92,7 +92,7 @@ export default function Landing() {
         </motion.div>
         <motion.h1
           variants={item}
-          className="font-serif-display text-[2.75rem] sm:text-5xl leading-[1.1] text-white"
+          className="font-serif-display text-3xl sm:text-4xl md:text-5xl leading-[1.15] text-white"
         >
           Your applications, deadlines and accounts <span className="text-primary">stop living in seven tabs</span>.
         </motion.h1>
@@ -100,15 +100,15 @@ export default function Landing() {
           One place to track opportunities, deadlines, interviews and accounts — so you never
           have to hold it all in your head.
         </motion.p>
-        <motion.div variants={item} className="mt-8 flex items-center justify-center gap-3">
-          <Link to={user ? "/dashboard" : "/register"}>
-            <Button className="px-6 py-3">
+        <motion.div variants={item} className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+          <Link to={user ? "/dashboard" : "/register"} className="sm:contents">
+            <Button className="w-full sm:w-auto px-6 py-3">
               {user ? "Go to Dashboard" : "Start tracking"}
               <ArrowRight size={16} strokeWidth={2} />
             </Button>
           </Link>
-          <a href="#modules">
-            <Button variant="secondary" className="px-6 py-3">
+          <a href="#modules" className="sm:contents">
+            <Button variant="secondary" className="w-full sm:w-auto px-6 py-3">
               See what it does
             </Button>
           </a>
@@ -121,7 +121,7 @@ export default function Landing() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-80px" }}
-        className="max-w-5xl mx-auto px-6 pb-24"
+        className="max-w-5xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24"
       >
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {MODULES.map((m) => (
@@ -142,7 +142,7 @@ export default function Landing() {
         </div>
       </motion.section>
 
-      <footer className="max-w-5xl mx-auto px-6 pb-10 text-center text-xs text-gray-600">
+      <footer className="max-w-5xl mx-auto px-4 sm:px-6 pb-10 text-center text-xs text-gray-400">
         Capture once. Remember automatically. Act intelligently.
       </footer>
     </div>

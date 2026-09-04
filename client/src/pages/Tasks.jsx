@@ -60,12 +60,12 @@ export default function Tasks() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Tasks</h1>
           <p className="text-gray-400 text-sm mt-1">Small actionable to-dos, separate from opportunities.</p>
         </div>
-        <Button onClick={openCreate}>
+        <Button onClick={openCreate} className="w-full sm:w-auto shrink-0">
           <Plus size={16} strokeWidth={2} />
           Add Task
         </Button>
@@ -111,24 +111,25 @@ export default function Tasks() {
               layout
               className={`flex items-center justify-between rounded-lg border px-4 py-3 ${PRIORITY_STYLES[task.priority]}`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 min-w-0">
                 <input
                   type="checkbox"
                   checked={task.status === "done"}
                   onChange={() => toggleDone(task)}
-                  className="w-4 h-4 accent-[var(--primary)]"
+                  aria-label={`Mark "${task.title}" as ${task.status === "done" ? "not done" : "done"}`}
+                  className="w-4 h-4 shrink-0 accent-[var(--primary)]"
                 />
-                <div>
-                  <p className={`font-medium text-white ${task.status === "done" ? "line-through opacity-60" : ""}`}>
+                <div className="min-w-0">
+                  <p className={`font-medium text-white truncate ${task.status === "done" ? "line-through opacity-60" : ""}`}>
                     {task.title}
                   </p>
-                  <p className="text-xs text-gray-400 mt-0.5">
+                  <p className="text-xs text-gray-400 mt-0.5 truncate">
                     {label(task.status)}
                     {task.dueDate && ` • Due ${formatDate(task.dueDate)}`}
                   </p>
                 </div>
               </div>
-              <div className="flex gap-3 text-xs">
+              <div className="flex gap-3 text-xs shrink-0">
                 <button onClick={() => openEdit(task)} className="text-gray-300 hover:text-white transition">
                   Edit
                 </button>

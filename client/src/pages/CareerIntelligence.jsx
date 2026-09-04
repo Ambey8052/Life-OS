@@ -44,7 +44,7 @@ export default function CareerIntelligence() {
         <div className="space-y-3">
           {data.topSkills.map(({ skill, count }) => (
             <div key={skill} className="flex items-center gap-3">
-              <span className="w-32 text-sm text-gray-300 truncate">{skill}</span>
+              <span className="w-24 sm:w-32 shrink-0 text-xs sm:text-sm text-gray-300 truncate">{skill}</span>
               <div className="flex-1 h-3 rounded-full bg-white/5 overflow-hidden">
                 <motion.div
                   className="h-full bg-[var(--primary)] rounded-full"

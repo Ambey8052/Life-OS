@@ -46,7 +46,7 @@ export default function Analytics() {
         <div className="space-y-2">
           {data.funnel.map((f) => (
             <div key={f.stage} className="flex items-center gap-3">
-              <span className="w-36 shrink-0 text-sm text-gray-300">{statusLabel(f.stage)}</span>
+              <span className="w-24 sm:w-36 shrink-0 text-xs sm:text-sm text-gray-300">{statusLabel(f.stage)}</span>
               <div className="flex-1 h-4 rounded-md bg-white/5 overflow-hidden">
                 <motion.div
                   className="h-full bg-[var(--primary)] rounded-md"

@@ -46,7 +46,7 @@ export default function NoteFormModal({ note, onClose }) {
       onClick={onClose}
     >
       <motion.div
-        className="w-full max-w-lg rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] p-6"
+        className="w-full max-w-lg rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] p-5 sm:p-6 max-h-[90vh] overflow-y-auto"
         initial={{ opacity: 0, scale: 0.96, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 10 }}

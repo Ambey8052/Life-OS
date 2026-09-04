@@ -36,7 +36,7 @@ export default function Applications() {
         return (
           <section key={stage}>
             <h2 className="text-sm font-semibold text-gray-300 mb-3">
-              {statusLabel(stage)} <span className="text-gray-500">({items.length})</span>
+              {statusLabel(stage)} <span className="text-gray-400">({items.length})</span>
             </h2>
             <div className="space-y-2">
               {items.map((item) => (
@@ -44,11 +44,20 @@ export default function Applications() {
                   key={item._id}
                   className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-white/[0.03] px-4 py-3"
                 >
-                  <div>
-                    <p className="font-medium text-white">{item.title}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">{item.organization}</p>
+                  <div className="flex items-center gap-3 min-w-0">
+                    {item.logoUrl && (
+                      <img
+                        src={item.logoUrl}
+                        alt=""
+                        className="w-8 h-8 rounded-md border border-[var(--border)] shrink-0 bg-white/5"
+                      />
+                    )}
+                    <div className="min-w-0">
+                      <p className="font-medium text-white truncate">{item.title}</p>
+                      <p className="text-xs text-gray-400 mt-0.5 truncate">{item.organization}</p>
+                    </div>
                   </div>
-                  <div className="text-right text-xs text-gray-400">
+                  <div className="text-right text-xs text-gray-400 shrink-0 pl-3">
                     {item.appliedAt && <p>Applied {formatDate(item.appliedAt)}</p>}
                     {item.followUpDate && <p>Follow up {formatDate(item.followUpDate)}</p>}
                   </div>

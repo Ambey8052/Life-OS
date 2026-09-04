@@ -2,13 +2,15 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: dark;
+
   --bg: #0a0d10;
   --surface: #12161b;
   --surface-raised: #171c22;
   --border: rgba(255, 255, 255, 0.09);
   --border-strong: rgba(255, 255, 255, 0.16);
   --text: #e8ebee;
-  --text-muted: #8b96a3;
+  --text-muted: #a2acb8;
 
   --primary: #17b399;
   --primary-strong: #0f8c78;
@@ -20,16 +22,54 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   background-color: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
 }
 
 .font-serif-display {
   font-family: "Newsreader", Georgia, serif;
+}
+
+/* Browsers default placeholders to a light-background gray that is unreadable
+   on this dark surface, so set it explicitly. */
+::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+/* Date inputs render a near-black calendar glyph on dark backgrounds by default. */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+/* Native select dropdowns inherit the OS light palette without this. */
+select option {
+  background-color: var(--surface-raised);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Tailwind v4 no longer sets pointer cursors on buttons by default. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+label,
+summary {
+  cursor: pointer;
 }
 
 ::selection {
@@ -56,4 +96,15 @@ body {
 
 .text-primary {
   color: var(--primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

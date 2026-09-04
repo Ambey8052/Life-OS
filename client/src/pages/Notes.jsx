@@ -49,12 +49,12 @@ export default function Notes() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Notes</h1>
           <p className="text-gray-400 text-sm mt-1">Ideas, research and things worth remembering.</p>
         </div>
-        <Button onClick={openCreate}>
+        <Button onClick={openCreate} className="w-full sm:w-auto shrink-0">
           <Plus size={16} strokeWidth={2} />
           Add Note
         </Button>
@@ -118,7 +118,7 @@ export default function Notes() {
               {note.content && (
                 <p className="text-sm text-gray-400 mt-2 whitespace-pre-wrap line-clamp-4">{note.content}</p>
               )}
-              <p className="text-xs text-gray-500 mt-3">{formatDate(note.createdAt)}</p>
+              <p className="text-xs text-gray-400 mt-3">{formatDate(note.createdAt)}</p>
             </motion.div>
           ))}
         </AnimatePresence>

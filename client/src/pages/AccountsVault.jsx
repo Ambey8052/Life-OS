@@ -81,7 +81,7 @@ function AccountRow({ item, onEdit }) {
         <div className="min-w-0">
           <p className="font-medium text-white truncate">
             {item.organization || item.title}
-            {item.organization && <span className="text-gray-500"> · {item.title}</span>}
+            {item.organization && <span className="text-gray-400"> · {item.title}</span>}
           </p>
           <p className="text-xs text-gray-400 mt-0.5 truncate">
             {item.loginIdentifier || "no login saved"} • {statusLabel(item.status)}

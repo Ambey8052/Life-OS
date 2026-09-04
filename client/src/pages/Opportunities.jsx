@@ -66,12 +66,12 @@ export default function Opportunities() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Opportunities</h1>
           <p className="text-gray-400 text-sm mt-1">Everything you're tracking, in one lifecycle.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 shrink-0">
           <Button variant="secondary" onClick={openLogApplication}>
             <Send size={16} strokeWidth={2} />
             Log Application
@@ -83,7 +83,7 @@ export default function Opportunities() {
         </div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
         <input
           placeholder="Search…"
           value={q}
