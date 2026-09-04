@@ -7,6 +7,9 @@ export function toOpportunityDTO(row) {
     category: row.category,
     website: row.website,
     applicationUrl: row.application_url,
+    loginIdentifier: row.login_identifier,
+    logoUrl: row.logo_url,
+    hasCredential: Array.isArray(row.credentials) ? row.credentials.length > 0 : Boolean(row.credentials),
     status: row.status,
     priority: row.priority,
     deadline: row.deadline,
@@ -29,6 +32,7 @@ export function fromOpportunityInput(data) {
   if ("category" in data) row.category = data.category;
   if ("website" in data) row.website = data.website;
   if ("applicationUrl" in data) row.application_url = data.applicationUrl;
+  if ("loginIdentifier" in data) row.login_identifier = data.loginIdentifier;
   if ("status" in data) row.status = data.status;
   if ("priority" in data) row.priority = data.priority;
   if ("deadline" in data) row.deadline = data.deadline;

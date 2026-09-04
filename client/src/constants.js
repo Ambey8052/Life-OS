@@ -69,3 +69,14 @@ export function formatDate(date) {
 export function label(value) {
   return value ? value.replace(/_/g, " ") : "";
 }
+
+export function faviconUrlFor(rawUrl) {
+  if (!rawUrl) return null;
+  try {
+    const url = rawUrl.includes("://") ? rawUrl : `https://${rawUrl}`;
+    const { hostname } = new URL(url);
+    return `https://www.google.com/s2/favicons?sz=128&domain=${hostname}`;
+  } catch {
+    return null;
+  }
+}

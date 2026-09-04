@@ -111,12 +111,17 @@ function OpportunityRow({ item }) {
         to="/opportunities"
         className={`flex items-center justify-between rounded-lg border px-4 py-3 transition-colors hover:border-[var(--border-strong)] ${PRIORITY_STYLES[item.priorityLabel]}`}
       >
-        <div>
-          <p className="font-medium text-white">{item.title}</p>
-          <p className="text-xs text-gray-400 mt-0.5">
-            {item.organization && `${item.organization} • `}
-            {label(item.status)}
-          </p>
+        <div className="flex items-center gap-3 min-w-0">
+          {item.logoUrl && (
+            <img src={item.logoUrl} alt="" className="w-7 h-7 rounded-md border border-[var(--border)] shrink-0 bg-white/5" />
+          )}
+          <div className="min-w-0">
+            <p className="font-medium text-white truncate">{item.title}</p>
+            <p className="text-xs text-gray-400 mt-0.5 truncate">
+              {item.organization && `${item.organization} • `}
+              {label(item.status)}
+            </p>
+          </div>
         </div>
         <div className="text-right text-xs text-gray-300">
           {item.deadline && <p>Deadline {formatDate(item.deadline)}</p>}

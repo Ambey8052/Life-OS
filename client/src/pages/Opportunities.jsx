@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { Plus, Target } from "lucide-react";
+import { Plus, Target, Send } from "lucide-react";
 import { useOpportunities, useDeleteOpportunity } from "../hooks/useOpportunities";
 import { PRIORITY_STYLES, STATUSES, formatDate, label } from "../constants";
 import OpportunityFormModal from "../components/OpportunityFormModal";
@@ -25,6 +25,7 @@ export default function Opportunities() {
   const [q, setQ] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [logApplication, setLogApplication] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(null);
 
   const filters = {};
@@ -36,11 +37,19 @@ export default function Opportunities() {
 
   function openCreate() {
     setEditing(null);
+    setLogApplication(false);
+    setModalOpen(true);
+  }
+
+  function openLogApplication() {
+    setEditing(null);
+    setLogApplication(true);
     setModalOpen(true);
   }
 
   function openEdit(item) {
     setEditing(item);
+    setLogApplication(false);
     setModalOpen(true);
   }
 
@@ -62,10 +71,16 @@ export default function Opportunities() {
           <h1 className="text-2xl font-semibold">Opportunities</h1>
           <p className="text-gray-400 text-sm mt-1">Everything you're tracking, in one lifecycle.</p>
         </div>
-        <Button onClick={openCreate}>
-          <Plus size={16} strokeWidth={2} />
-          Add Opportunity
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="secondary" onClick={openLogApplication}>
+            <Send size={16} strokeWidth={2} />
+            Log Application
+          </Button>
+          <Button onClick={openCreate}>
+            <Plus size={16} strokeWidth={2} />
+            Add Opportunity
+          </Button>
+        </div>
       </div>
 
       <div className="flex gap-3">
@@ -116,15 +131,24 @@ export default function Opportunities() {
               layout
               className={`flex items-center justify-between rounded-lg border px-4 py-3 ${PRIORITY_STYLES[item.priorityLabel]}`}
             >
-              <div>
-                <p className="font-medium text-white">{item.title}</p>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  {item.organization && `${item.organization} • `}
-                  {label(item.category)} • {label(item.status)}
-                  {item.deadline && ` • Deadline ${formatDate(item.deadline)}`}
-                </p>
+              <div className="flex items-center gap-3 min-w-0">
+                {item.logoUrl && (
+                  <img
+                    src={item.logoUrl}
+                    alt=""
+                    className="w-8 h-8 rounded-md border border-[var(--border)] shrink-0 bg-white/5"
+                  />
+                )}
+                <div className="min-w-0">
+                  <p className="font-medium text-white truncate">{item.title}</p>
+                  <p className="text-xs text-gray-400 mt-0.5 truncate">
+                    {item.organization && `${item.organization} • `}
+                    {label(item.category)} • {label(item.status)}
+                    {item.deadline && ` • Deadline ${formatDate(item.deadline)}`}
+                  </p>
+                </div>
               </div>
-              <div className="flex gap-3 text-xs">
+              <div className="flex gap-3 text-xs shrink-0">
                 <button onClick={() => openEdit(item)} className="text-gray-300 hover:text-white transition">
                   Edit
                 </button>
@@ -142,7 +166,11 @@ export default function Opportunities() {
 
       <AnimatePresence>
         {modalOpen && (
-          <OpportunityFormModal opportunity={editing} onClose={() => setModalOpen(false)} />
+          <OpportunityFormModal
+            opportunity={editing}
+            initialValues={logApplication ? { status: "applied", appliedAt: new Date().toISOString() } : undefined}
+            onClose={() => setModalOpen(false)}
+          />
         )}
       </AnimatePresence>
 

@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { CATEGORIES, STATUSES, PRIORITIES, label } from "../constants";
-import { useCreateOpportunity, useUpdateOpportunity } from "../hooks/useOpportunities";
+import { Eye, EyeOff, Lock, Trash2 } from "lucide-react";
+import { CATEGORIES, STATUSES, PRIORITIES, label, faviconUrlFor } from "../constants";
+import {
+  useCreateOpportunity,
+  useUpdateOpportunity,
+  useSetCredential,
+  useRevealCredential,
+  useDeleteCredential,
+} from "../hooks/useOpportunities";
 import Button from "./ui/Button";
 
 function toDateInput(value) {
@@ -10,46 +17,33 @@ function toDateInput(value) {
   return new Date(value).toISOString().slice(0, 10);
 }
 
-function emptyForm() {
-  return {
-    title: "",
-    organization: "",
-    category: "other",
-    website: "",
-    applicationUrl: "",
-    status: "saved",
-    priority: "medium",
-    deadline: "",
-    location: "",
-    salary: "",
-    notes: "",
-  };
-}
-
-export default function OpportunityFormModal({ opportunity, onClose }) {
+export default function OpportunityFormModal({ opportunity, initialValues, onClose }) {
   const isEdit = Boolean(opportunity);
-  const [form, setForm] = useState(
-    isEdit
-      ? {
-          title: opportunity.title || "",
-          organization: opportunity.organization || "",
-          category: opportunity.category || "other",
-          website: opportunity.website || "",
-          applicationUrl: opportunity.applicationUrl || "",
-          status: opportunity.status || "saved",
-          priority: opportunity.priority || "medium",
-          deadline: toDateInput(opportunity.deadline),
-          location: opportunity.location || "",
-          salary: opportunity.salary || "",
-          notes: opportunity.notes || "",
-        }
-      : emptyForm()
-  );
+  const seed = opportunity || initialValues || {};
+
+  const [form, setForm] = useState({
+    title: seed.title || "",
+    organization: seed.organization || "",
+    category: seed.category || "other",
+    website: seed.website || "",
+    applicationUrl: seed.applicationUrl || "",
+    loginIdentifier: seed.loginIdentifier || "",
+    status: seed.status || "saved",
+    priority: seed.priority || "medium",
+    deadline: toDateInput(seed.deadline),
+    appliedAt: toDateInput(seed.appliedAt),
+    followUpDate: toDateInput(seed.followUpDate),
+    location: seed.location || "",
+    salary: seed.salary || "",
+    notes: seed.notes || "",
+  });
+  const [passwordInput, setPasswordInput] = useState("");
   const [error, setError] = useState("");
 
   const createMutation = useCreateOpportunity();
   const updateMutation = useUpdateOpportunity();
-  const submitting = createMutation.isPending || updateMutation.isPending;
+  const setCredentialMutation = useSetCredential();
+  const submitting = createMutation.isPending || updateMutation.isPending || setCredentialMutation.isPending;
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -61,20 +55,28 @@ export default function OpportunityFormModal({ opportunity, onClose }) {
     const payload = {
       ...form,
       deadline: form.deadline ? new Date(form.deadline).toISOString() : null,
+      appliedAt: form.appliedAt ? new Date(form.appliedAt).toISOString() : null,
+      followUpDate: form.followUpDate ? new Date(form.followUpDate).toISOString() : null,
     };
     try {
+      let id = opportunity?._id;
       if (isEdit) {
-        await updateMutation.mutateAsync({ id: opportunity._id, data: payload });
-        toast.success("Opportunity updated");
+        await updateMutation.mutateAsync({ id, data: payload });
       } else {
-        await createMutation.mutateAsync(payload);
-        toast.success("Opportunity added");
+        const created = await createMutation.mutateAsync(payload);
+        id = created._id;
       }
+      if (passwordInput) {
+        await setCredentialMutation.mutateAsync({ id, password: passwordInput });
+      }
+      toast.success(isEdit ? "Opportunity updated" : "Opportunity added");
       onClose();
     } catch (err) {
       setError(err.message);
     }
   }
+
+  const logoUrl = faviconUrlFor(form.website || form.applicationUrl);
 
   return (
     <motion.div
@@ -160,6 +162,20 @@ export default function OpportunityFormModal({ opportunity, onClose }) {
               />
             </Field>
           </div>
+
+          <Field label="Website">
+            <div className="flex items-center gap-2">
+              {logoUrl && (
+                <img src={logoUrl} alt="" className="w-8 h-8 rounded-md border border-[var(--border)] shrink-0" />
+              )}
+              <input
+                value={form.website}
+                onChange={(e) => update("website", e.target.value)}
+                className={inputClass}
+                placeholder="https://…"
+              />
+            </div>
+          </Field>
           <Field label="Application URL">
             <input
               value={form.applicationUrl}
@@ -168,6 +184,40 @@ export default function OpportunityFormModal({ opportunity, onClose }) {
               placeholder="https://…"
             />
           </Field>
+
+          <Field label="Login used">
+            <input
+              value={form.loginIdentifier}
+              onChange={(e) => update("loginIdentifier", e.target.value)}
+              className={inputClass}
+              placeholder="email or username used to apply"
+            />
+          </Field>
+          <CredentialField
+            opportunity={opportunity}
+            value={passwordInput}
+            onChange={setPasswordInput}
+          />
+
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Applied on">
+              <input
+                type="date"
+                value={form.appliedAt}
+                onChange={(e) => update("appliedAt", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+            <Field label="Follow up on">
+              <input
+                type="date"
+                value={form.followUpDate}
+                onChange={(e) => update("followUpDate", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+          </div>
+
           <div className="grid grid-cols-2 gap-3">
             <Field label="Location">
               <input
@@ -206,6 +256,90 @@ export default function OpportunityFormModal({ opportunity, onClose }) {
         </form>
       </motion.div>
     </motion.div>
+  );
+}
+
+function CredentialField({ opportunity, value, onChange }) {
+  const [mode, setMode] = useState(opportunity?.hasCredential ? "locked" : "input");
+  const [showPassword, setShowPassword] = useState(false);
+  const [revealed, setRevealed] = useState("");
+
+  const revealMutation = useRevealCredential();
+  const deleteMutation = useDeleteCredential();
+
+  if (mode === "locked") {
+    return (
+      <Field label="Password">
+        <div className="flex items-center gap-2 rounded-md bg-white/[0.04] border border-[var(--border)] px-3 py-2 text-sm">
+          <Lock size={14} strokeWidth={1.75} className="text-[var(--text-muted)] shrink-0" />
+          {revealed ? (
+            <span className="flex-1 font-mono text-white truncate">{revealed}</span>
+          ) : (
+            <span className="flex-1 text-gray-400">Password saved</span>
+          )}
+          <button
+            type="button"
+            onClick={async () => {
+              if (revealed) return setRevealed("");
+              try {
+                const password = await revealMutation.mutateAsync(opportunity._id);
+                setRevealed(password);
+              } catch (err) {
+                toast.error(err.message);
+              }
+            }}
+            className="text-xs text-gray-300 hover:text-white transition shrink-0"
+          >
+            {revealed ? "Hide" : "Reveal"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("input")}
+            className="text-xs text-gray-300 hover:text-white transition shrink-0"
+          >
+            Change
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await deleteMutation.mutateAsync(opportunity._id);
+                setMode("input");
+                toast.success("Password removed");
+              } catch (err) {
+                toast.error(err.message);
+              }
+            }}
+            className="text-gray-400 hover:text-red-400 transition shrink-0"
+            aria-label="Remove password"
+          >
+            <Trash2 size={14} strokeWidth={1.75} />
+          </button>
+        </div>
+      </Field>
+    );
+  }
+
+  return (
+    <Field label="Password">
+      <div className="relative">
+        <input
+          type={showPassword ? "text" : "password"}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="stored encrypted — never stored as plain text"
+          className={`${inputClass} pr-9`}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword((s) => !s)}
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition"
+          aria-label={showPassword ? "Hide password" : "Show password"}
+        >
+          {showPassword ? <EyeOff size={15} strokeWidth={1.75} /> : <Eye size={15} strokeWidth={1.75} />}
+        </button>
+      </div>
+    </Field>
   );
 }
 

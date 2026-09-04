@@ -15,6 +15,7 @@ export const opportunityCreateSchema = z.object({
   category: z.enum(CATEGORIES).optional(),
   website: z.string().max(500).optional(),
   applicationUrl: z.string().max(500).optional(),
+  loginIdentifier: z.string().max(200).optional(),
   status: z.enum(STATUSES).optional(),
   priority: z.enum(PRIORITIES).optional(),
   deadline: z.coerce.date().optional().nullable(),

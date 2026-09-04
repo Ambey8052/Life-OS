@@ -53,3 +53,25 @@ export function useDeleteOpportunity() {
     },
   });
 }
+
+export function useSetCredential() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, password }) => api.post(`/opportunities/${id}/credential`, { password }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["opportunities"] }),
+  });
+}
+
+export function useRevealCredential() {
+  return useMutation({
+    mutationFn: async (id) => (await api.get(`/opportunities/${id}/credential/reveal`)).data.password,
+  });
+}
+
+export function useDeleteCredential() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id) => api.delete(`/opportunities/${id}/credential`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["opportunities"] }),
+  });
+}
