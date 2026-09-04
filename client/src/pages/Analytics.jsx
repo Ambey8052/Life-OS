@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useAnalytics } from "../hooks/useAnalytics";
-import { label } from "../constants";
+import { statusLabel } from "../constants";
 import { SkeletonCards, SkeletonRows } from "../components/ui/Skeleton";
 
 export default function Analytics() {
@@ -46,7 +46,7 @@ export default function Analytics() {
         <div className="space-y-2">
           {data.funnel.map((f) => (
             <div key={f.stage} className="flex items-center gap-3">
-              <span className="w-28 text-sm text-gray-300 capitalize">{label(f.stage)}</span>
+              <span className="w-36 shrink-0 text-sm text-gray-300">{statusLabel(f.stage)}</span>
               <div className="flex-1 h-4 rounded-md bg-white/5 overflow-hidden">
                 <motion.div
                   className="h-full bg-[var(--primary)] rounded-md"
@@ -67,7 +67,7 @@ export default function Analytics() {
           {Object.entries(data.statusCounts).map(([status, count]) => (
             <div key={status} className="rounded-lg border border-[var(--border)] bg-white/[0.03] p-4">
               <p className="text-xl font-semibold">{count}</p>
-              <p className="text-xs text-gray-400 mt-1">{label(status)}</p>
+              <p className="text-xs text-gray-400 mt-1">{statusLabel(status)}</p>
             </div>
           ))}
         </div>

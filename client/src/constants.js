@@ -32,6 +32,25 @@ export const STATUSES = [
   "on_hold",
 ];
 
+// Statuses that make sense once an application has actually been submitted —
+// used in the "Log Application" flow, where "discovered"/"saved" don't apply.
+export const APPLICATION_STATUSES = STATUSES.filter((s) => s !== "discovered" && s !== "saved");
+
+export const STATUS_LABELS = {
+  discovered: "Discovered",
+  saved: "Saved",
+  applied: "Waiting for Response",
+  screening: "Screening",
+  assessment: "Assessment",
+  interview: "Interview Scheduled",
+  offer: "Offer Received",
+  accepted: "Accepted",
+  rejected: "Rejected",
+  withdrawn: "Withdrawn",
+  expired: "Expired",
+  on_hold: "On Hold",
+};
+
 export const PRIORITIES = ["low", "medium", "high", "critical"];
 
 export const TASK_STATUSES = ["todo", "in_progress", "done"];
@@ -68,6 +87,10 @@ export function formatDate(date) {
 
 export function label(value) {
   return value ? value.replace(/_/g, " ") : "";
+}
+
+export function statusLabel(value) {
+  return STATUS_LABELS[value] || label(value);
 }
 
 export function faviconUrlFor(rawUrl) {

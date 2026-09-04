@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Eye, EyeOff, Lock, Trash2 } from "lucide-react";
-import { CATEGORIES, STATUSES, PRIORITIES, label, faviconUrlFor } from "../constants";
+import { CATEGORIES, STATUSES, PRIORITIES, label, statusLabel, faviconUrlFor } from "../constants";
 import {
   useCreateOpportunity,
   useUpdateOpportunity,
@@ -77,6 +77,7 @@ export default function OpportunityFormModal({ opportunity, initialValues, onClo
   }
 
   const logoUrl = faviconUrlFor(form.website || form.applicationUrl);
+  const isApplied = form.status !== "discovered" && form.status !== "saved";
 
   return (
     <motion.div
@@ -148,19 +149,30 @@ export default function OpportunityFormModal({ opportunity, initialValues, onClo
               >
                 {STATUSES.map((s) => (
                   <option key={s} value={s}>
-                    {label(s)}
+                    {statusLabel(s)}
                   </option>
                 ))}
               </select>
             </Field>
-            <Field label="Deadline">
-              <input
-                type="date"
-                value={form.deadline}
-                onChange={(e) => update("deadline", e.target.value)}
-                className={inputClass}
-              />
-            </Field>
+            {isApplied ? (
+              <Field label="Follow up on">
+                <input
+                  type="date"
+                  value={form.followUpDate}
+                  onChange={(e) => update("followUpDate", e.target.value)}
+                  className={inputClass}
+                />
+              </Field>
+            ) : (
+              <Field label="Deadline">
+                <input
+                  type="date"
+                  value={form.deadline}
+                  onChange={(e) => update("deadline", e.target.value)}
+                  className={inputClass}
+                />
+              </Field>
+            )}
           </div>
 
           <Field label="Website">
@@ -199,7 +211,7 @@ export default function OpportunityFormModal({ opportunity, initialValues, onClo
             onChange={setPasswordInput}
           />
 
-          <div className="grid grid-cols-2 gap-3">
+          {isApplied && (
             <Field label="Applied on">
               <input
                 type="date"
@@ -208,15 +220,7 @@ export default function OpportunityFormModal({ opportunity, initialValues, onClo
                 className={inputClass}
               />
             </Field>
-            <Field label="Follow up on">
-              <input
-                type="date"
-                value={form.followUpDate}
-                onChange={(e) => update("followUpDate", e.target.value)}
-                className={inputClass}
-              />
-            </Field>
-          </div>
+          )}
 
           <div className="grid grid-cols-2 gap-3">
             <Field label="Location">

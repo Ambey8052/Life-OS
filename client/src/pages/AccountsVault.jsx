@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { useOpportunities, useRevealCredential } from "../hooks/useOpportunities";
-import { label } from "../constants";
+import { statusLabel } from "../constants";
 import OpportunityFormModal from "../components/OpportunityFormModal";
 import EmptyState from "../components/ui/EmptyState";
 import { SkeletonRows } from "../components/ui/Skeleton";
@@ -84,7 +84,7 @@ function AccountRow({ item, onEdit }) {
             {item.organization && <span className="text-gray-500"> · {item.title}</span>}
           </p>
           <p className="text-xs text-gray-400 mt-0.5 truncate">
-            {item.loginIdentifier || "no login saved"} • {label(item.status)}
+            {item.loginIdentifier || "no login saved"} • {statusLabel(item.status)}
           </p>
         </div>
       </div>

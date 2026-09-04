@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Flame } from "lucide-react";
 import { useDashboardToday } from "../hooks/useOpportunities";
-import { PRIORITY_STYLES, PRIORITY_ICON, PRIORITY_TEXT, formatDate, label } from "../constants";
+import { PRIORITY_STYLES, PRIORITY_ICON, PRIORITY_TEXT, formatDate, statusLabel } from "../constants";
 import Button from "../components/ui/Button";
 import EmptyState from "../components/ui/EmptyState";
 import { SkeletonCards, SkeletonRows } from "../components/ui/Skeleton";
@@ -119,7 +119,7 @@ function OpportunityRow({ item }) {
             <p className="font-medium text-white truncate">{item.title}</p>
             <p className="text-xs text-gray-400 mt-0.5 truncate">
               {item.organization && `${item.organization} • `}
-              {label(item.status)}
+              {statusLabel(item.status)}
             </p>
           </div>
         </div>

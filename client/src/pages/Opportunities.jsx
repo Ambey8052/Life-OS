@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Plus, Target, Send } from "lucide-react";
 import { useOpportunities, useDeleteOpportunity } from "../hooks/useOpportunities";
-import { PRIORITY_STYLES, STATUSES, formatDate, label } from "../constants";
+import { PRIORITY_STYLES, STATUSES, formatDate, label, statusLabel } from "../constants";
 import OpportunityFormModal from "../components/OpportunityFormModal";
 import Button from "../components/ui/Button";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
@@ -98,7 +98,7 @@ export default function Opportunities() {
           <option value="">All statuses</option>
           {STATUSES.map((s) => (
             <option key={s} value={s}>
-              {label(s)}
+              {statusLabel(s)}
             </option>
           ))}
         </select>
@@ -143,8 +143,10 @@ export default function Opportunities() {
                   <p className="font-medium text-white truncate">{item.title}</p>
                   <p className="text-xs text-gray-400 mt-0.5 truncate">
                     {item.organization && `${item.organization} • `}
-                    {label(item.category)} • {label(item.status)}
-                    {item.deadline && ` • Deadline ${formatDate(item.deadline)}`}
+                    {label(item.category)} • {statusLabel(item.status)}
+                    {item.status === "discovered" || item.status === "saved"
+                      ? item.deadline && ` • Deadline ${formatDate(item.deadline)}`
+                      : item.followUpDate && ` • Follow up ${formatDate(item.followUpDate)}`}
                   </p>
                 </div>
               </div>

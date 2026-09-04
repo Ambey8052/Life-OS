@@ -1,6 +1,6 @@
 import { Inbox } from "lucide-react";
 import { useOpportunities } from "../hooks/useOpportunities";
-import { formatDate, label } from "../constants";
+import { formatDate, statusLabel } from "../constants";
 import { SkeletonRows } from "../components/ui/Skeleton";
 import EmptyState from "../components/ui/EmptyState";
 
@@ -36,7 +36,7 @@ export default function Applications() {
         return (
           <section key={stage}>
             <h2 className="text-sm font-semibold text-gray-300 mb-3">
-              {label(stage)} <span className="text-gray-500">({items.length})</span>
+              {statusLabel(stage)} <span className="text-gray-500">({items.length})</span>
             </h2>
             <div className="space-y-2">
               {items.map((item) => (
@@ -50,7 +50,7 @@ export default function Applications() {
                   </div>
                   <div className="text-right text-xs text-gray-400">
                     {item.appliedAt && <p>Applied {formatDate(item.appliedAt)}</p>}
-                    {item.deadline && <p>Deadline {formatDate(item.deadline)}</p>}
+                    {item.followUpDate && <p>Follow up {formatDate(item.followUpDate)}</p>}
                   </div>
                 </div>
               ))}
