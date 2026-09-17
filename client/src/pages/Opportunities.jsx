@@ -3,12 +3,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Plus, Target, Send } from "lucide-react";
 import { useOpportunities, useDeleteOpportunity } from "../hooks/useOpportunities";
-import { PRIORITY_STYLES, STATUSES, formatDate, label, statusLabel } from "../constants";
-import OpportunityFormModal from "../components/OpportunityFormModal";
+import { PRIORITY_STYLES, STATUSES } from "../constants";
+import { formatDate, label, statusLabel } from "../utils/format";
+import OpportunityFormModal from "../components/forms/OpportunityFormModal";
 import Button from "../components/ui/Button";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
 import EmptyState from "../components/ui/EmptyState";
 import { SkeletonRows } from "../components/ui/Skeleton";
+import { inputClass } from "../components/ui/Field";
 
 const listVariants = {
   hidden: {},
@@ -88,12 +90,12 @@ export default function Opportunities() {
           placeholder="Search…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          className="rounded-md bg-white/[0.04] border border-[var(--border)] px-3 py-2 text-sm focus:outline-none focus:border-[var(--primary)]/50 focus:ring-1 focus:ring-[var(--primary)]/30 transition flex-1"
+          className={`${inputClass} sm:flex-1`}
         />
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded-md bg-white/[0.04] border border-[var(--border)] px-3 py-2 text-sm focus:outline-none focus:border-[var(--primary)]/50 transition"
+          className={`${inputClass} sm:w-auto`}
         >
           <option value="">All statuses</option>
           {STATUSES.map((s) => (

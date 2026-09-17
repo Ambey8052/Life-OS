@@ -29,3 +29,7 @@ export const opportunityCreateSchema = z.object({
 });
 
 export const opportunityUpdateSchema = opportunityCreateSchema.partial();
+
+export const setCredentialSchema = z.object({
+  password: z.string().min(1).max(500),
+});

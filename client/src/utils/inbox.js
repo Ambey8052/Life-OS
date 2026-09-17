@@ -105,7 +105,7 @@ function sortByUrgency(a, b) {
 }
 
 // A note earns a spot on the wall if there's something to do, or a date worth remembering.
-export function belongsOnWall(insight) {
+function belongsOnWall(insight) {
   if (insight.status !== "open") return false;
   if (insight.actionRequired) return true;
   return Boolean(keyDateOf(insight)) && insight.importance !== "low";

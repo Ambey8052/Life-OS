@@ -1,7 +1,10 @@
 import { supabase } from "../config/supabase.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { opportunityCreateSchema, opportunityUpdateSchema } from "../validators/opportunityValidators.js";
-import { setCredentialSchema } from "../validators/credentialValidators.js";
+import {
+  opportunityCreateSchema,
+  opportunityUpdateSchema,
+  setCredentialSchema,
+} from "../validators/opportunityValidators.js";
 import { computePriorityScore, scoreLabel } from "../utils/priorityScore.js";
 import { toOpportunityDTO, fromOpportunityInput } from "../utils/mappers.js";
 import { faviconUrlFor } from "../utils/favicon.js";
@@ -88,8 +91,6 @@ export const deleteOpportunity = asyncHandler(async (req, res) => {
   if (!data) return res.status(404).json({ error: "Opportunity not found" });
   res.status(204).send();
 });
-
-// ── Credential vault (one encrypted password per opportunity) ──────────────
 
 export const setCredential = asyncHandler(async (req, res) => {
   const { password } = setCredentialSchema.parse(req.body);

@@ -43,6 +43,7 @@ const TABS = [
 ];
 
 const DAY = 24 * 60 * 60 * 1000;
+const NO_INSIGHTS = [];
 
 function Stat({ icon: Icon, label, value, tone }) {
   return (
@@ -67,7 +68,7 @@ export default function InboxBrief() {
   const status = useGmailStatus();
   const connected = Boolean(status.data?.connected);
   const insightsQuery = useInsights({ status: "all", enabled: connected });
-  const insights = insightsQuery.data ?? [];
+  const insights = insightsQuery.data ?? NO_INSIGHTS;
 
   const connect = useConnectGmail();
   const sync = useSyncInbox();

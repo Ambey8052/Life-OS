@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Compass } from "lucide-react";
 import { useAnalytics } from "../hooks/useAnalytics";
-import { label } from "../constants";
+import { label } from "../utils/format";
 import { SkeletonCards, SkeletonRows } from "../components/ui/Skeleton";
 import EmptyState from "../components/ui/EmptyState";
 

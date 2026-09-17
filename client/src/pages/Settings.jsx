@@ -1,5 +1,5 @@
-import { useAuth } from "../context/AuthContext";
-import { formatDate } from "../constants";
+import { useAuth } from "../hooks/useAuth";
+import { formatDate } from "../utils/format";
 import Button from "../components/ui/Button";
 
 export default function Settings() {

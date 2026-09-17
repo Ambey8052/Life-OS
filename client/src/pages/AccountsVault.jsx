@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { useOpportunities, useRevealCredential } from "../hooks/useOpportunities";
-import { statusLabel } from "../constants";
-import OpportunityFormModal from "../components/OpportunityFormModal";
+import { statusLabel } from "../utils/format";
+import OpportunityFormModal from "../components/forms/OpportunityFormModal";
 import EmptyState from "../components/ui/EmptyState";
 import { SkeletonRows } from "../components/ui/Skeleton";
 

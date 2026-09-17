@@ -2,9 +2,9 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { EMAIL_CATEGORIES, PRIORITIES } from "../constants.js";
 
 const MODEL = process.env.GEMINI_MODEL || "gemini-flash-lite-latest";
-export const AI_BATCH_SIZE = 8;
+const AI_BATCH_SIZE = 8;
 
-export class AiQuotaError extends Error {
+class AiQuotaError extends Error {
   constructor() {
     super("The AI summarizer hit its free-tier rate limit. Wait a minute and sync again.");
     this.status = 429;

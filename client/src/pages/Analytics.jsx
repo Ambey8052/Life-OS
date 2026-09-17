@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useAnalytics } from "../hooks/useAnalytics";
-import { statusLabel } from "../constants";
+import { statusLabel } from "../utils/format";
 import { SkeletonCards, SkeletonRows } from "../components/ui/Skeleton";
 
 export default function Analytics() {

@@ -5,6 +5,8 @@ import { ArrowRight, Mail } from "lucide-react";
 import { useGmailStatus, useInsights } from "../../hooks/useInbox";
 import { buildWall, categoryMeta, describeDate, keyDateOf } from "../../utils/inbox";
 
+const NO_INSIGHTS = [];
+
 const TONE = {
   overdue: "text-red-700",
   urgent: "text-red-700",
@@ -15,7 +17,7 @@ const TONE = {
 export default function InboxWidget() {
   const status = useGmailStatus();
   const connected = Boolean(status.data?.connected);
-  const { data: insights = [] } = useInsights({ status: "all", enabled: connected });
+  const { data: insights = NO_INSIGHTS } = useInsights({ status: "all", enabled: connected });
 
   const top = useMemo(() => {
     const wall = buildWall(insights);

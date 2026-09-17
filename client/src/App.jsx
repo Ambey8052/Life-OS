@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./components/layout/Layout";
+import ProtectedRoute from "./components/layout/ProtectedRoute";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -12,11 +12,8 @@ import Tasks from "./pages/Tasks";
 import Notes from "./pages/Notes";
 import Analytics from "./pages/Analytics";
 import CareerIntelligence from "./pages/CareerIntelligence";
-import AIAssistant from "./pages/AIAssistant";
 import AccountsVault from "./pages/AccountsVault";
-import Documents from "./pages/Documents";
-import Calendar from "./pages/Calendar";
-import Reminders from "./pages/Reminders";
+import { AIAssistant, Calendar, Documents, Reminders } from "./pages/ComingSoonPages";
 import Settings from "./pages/Settings";
 
 export default function App() {

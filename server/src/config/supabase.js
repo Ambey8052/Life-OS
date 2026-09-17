@@ -7,9 +7,8 @@ if (!url || !serviceRoleKey) {
   throw new Error("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set");
 }
 
-// Server-only client using the service role key — bypasses Row Level Security.
-// LifeOS uses its own JWT auth, so every query below scopes by user_id itself;
-// this key must never be sent to the browser.
+// The service role key bypasses Row Level Security, so every query must filter by
+// user_id itself, and this key must never reach the browser.
 export const supabase = createClient(url, serviceRoleKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });

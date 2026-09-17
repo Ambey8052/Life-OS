@@ -4,7 +4,8 @@ export function notFound(req, res) {
   res.status(404).json({ error: "Route not found" });
 }
 
-export function errorHandler(err, req, res, next) {
+// Express identifies error handlers by their four parameters, so `_next` must stay.
+export function errorHandler(err, req, res, _next) {
   if (err instanceof ZodError) {
     const first = err.issues[0];
     return res.status(400).json({ error: `${first.path.join(".") || "input"}: ${first.message}` });

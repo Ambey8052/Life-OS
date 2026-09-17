@@ -3,12 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Plus, StickyNote } from "lucide-react";
 import { useNotes, useDeleteNote } from "../hooks/useNotes";
-import { formatDate } from "../constants";
-import NoteFormModal from "../components/NoteFormModal";
+import { formatDate } from "../utils/format";
+import NoteFormModal from "../components/forms/NoteFormModal";
 import Button from "../components/ui/Button";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
 import EmptyState from "../components/ui/EmptyState";
 import { Skeleton } from "../components/ui/Skeleton";
+import { inputClass } from "../components/ui/Field";
 
 const gridVariants = { hidden: {}, show: { transition: { staggerChildren: 0.05 } } };
 const cardVariants = {
@@ -64,7 +65,7 @@ export default function Notes() {
         placeholder="Search notes…"
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        className="w-full rounded-md bg-white/[0.04] border border-[var(--border)] px-3 py-2 text-sm focus:outline-none focus:border-[var(--primary)]/50 focus:ring-1 focus:ring-[var(--primary)]/30 transition"
+        className={inputClass}
       />
 
       {isLoading && (

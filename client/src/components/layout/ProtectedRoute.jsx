@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();

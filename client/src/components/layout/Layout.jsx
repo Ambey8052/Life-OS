@@ -20,7 +20,7 @@ import {
   X,
   Mail,
 } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 const NAV_GROUPS = [
   {
@@ -157,7 +157,6 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-transparent md:flex">
-      {/* Mobile top bar */}
       <div className="md:hidden sticky top-0 z-30 flex items-center justify-between border-b border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur px-4 py-3">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-md bg-[var(--primary)]/15 border border-[var(--primary)]/25 flex items-center justify-center">
@@ -174,12 +173,10 @@ export default function Layout() {
         </button>
       </div>
 
-      {/* Desktop sidebar */}
       <aside className="hidden md:flex w-60 shrink-0 border-r border-[var(--border)] flex-col sticky top-0 h-screen">
         <SidebarContent user={user} logout={logout} />
       </aside>
 
-      {/* Mobile drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <>

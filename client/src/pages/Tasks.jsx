@@ -3,12 +3,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Plus, CheckSquare } from "lucide-react";
 import { useTasks, useDeleteTask, useUpdateTask } from "../hooks/useTasks";
-import { PRIORITY_STYLES, TASK_STATUSES, formatDate, label } from "../constants";
-import TaskFormModal from "../components/TaskFormModal";
+import { PRIORITY_STYLES, TASK_STATUSES } from "../constants";
+import { formatDate, label } from "../utils/format";
+import TaskFormModal from "../components/forms/TaskFormModal";
 import Button from "../components/ui/Button";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
 import EmptyState from "../components/ui/EmptyState";
 import { SkeletonRows } from "../components/ui/Skeleton";
+import { inputClass } from "../components/ui/Field";
 
 const listVariants = { hidden: {}, show: { transition: { staggerChildren: 0.04 } } };
 const rowVariants = {
@@ -74,7 +76,7 @@ export default function Tasks() {
       <select
         value={statusFilter}
         onChange={(e) => setStatusFilter(e.target.value)}
-        className="rounded-md bg-white/[0.04] border border-[var(--border)] px-3 py-2 text-sm focus:outline-none focus:border-[var(--primary)]/50 transition"
+        className={`${inputClass} sm:w-auto`}
       >
         <option value="">All statuses</option>
         {TASK_STATUSES.map((s) => (

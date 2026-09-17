@@ -1,6 +1,6 @@
 import { Inbox } from "lucide-react";
 import { useOpportunities } from "../hooks/useOpportunities";
-import { formatDate, statusLabel } from "../constants";
+import { formatDate, statusLabel } from "../utils/format";
 import { SkeletonRows } from "../components/ui/Skeleton";
 import EmptyState from "../components/ui/EmptyState";
 

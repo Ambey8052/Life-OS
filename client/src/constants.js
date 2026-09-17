@@ -32,10 +32,6 @@ export const STATUSES = [
   "on_hold",
 ];
 
-// Statuses that make sense once an application has actually been submitted —
-// used in the "Log Application" flow, where "discovered"/"saved" don't apply.
-export const APPLICATION_STATUSES = STATUSES.filter((s) => s !== "discovered" && s !== "saved");
-
 export const STATUS_LABELS = {
   discovered: "Discovered",
   saved: "Saved",
@@ -75,31 +71,3 @@ export const PRIORITY_TEXT = {
   medium: "text-yellow-400",
   low: "text-emerald-400",
 };
-
-export function formatDate(date) {
-  if (!date) return "—";
-  return new Date(date).toLocaleDateString(undefined, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-export function label(value) {
-  return value ? value.replace(/_/g, " ") : "";
-}
-
-export function statusLabel(value) {
-  return STATUS_LABELS[value] || label(value);
-}
-
-export function faviconUrlFor(rawUrl) {
-  if (!rawUrl) return null;
-  try {
-    const url = rawUrl.includes("://") ? rawUrl : `https://${rawUrl}`;
-    const { hostname } = new URL(url);
-    return `https://www.google.com/s2/favicons?sz=128&domain=${hostname}`;
-  } catch {
-    return null;
-  }
-}
