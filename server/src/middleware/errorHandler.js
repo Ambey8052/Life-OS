@@ -10,6 +10,14 @@ export function errorHandler(err, req, res, next) {
     return res.status(400).json({ error: `${first.path.join(".") || "input"}: ${first.message}` });
   }
 
+  // supabase-js reports an unreachable database as a network error in the message.
+  if (/fetch failed|ENOTFOUND|ECONNREFUSED|ETIMEDOUT/i.test(`${err.message} ${err.details || ""}`)) {
+    console.error("Database unreachable:", err.message);
+    return res.status(503).json({
+      error: "Can't reach the database right now. If the Supabase project is paused, restore it from the Supabase dashboard.",
+    });
+  }
+
   console.error(err);
   const status = err.status || 500;
   // Only app-raised errors (which set a status) expose their code — not raw DB error codes.
