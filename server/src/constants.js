@@ -33,4 +33,22 @@ export const STATUSES = [
 export const PRIORITIES = ["low", "medium", "high", "critical"];
 
 export const TASK_STATUSES = ["todo", "in_progress", "done"];
+
+export const EMAIL_CATEGORIES = [
+  "exam",
+  "assignment",
+  "academic",
+  "interview",
+  "job",
+  "internship",
+  "scholarship",
+  "event",
+  "payment",
+  "official",
+  "personal",
+  "newsletter",
+  "other",
+];
+
+export const EMAIL_STATUSES = ["open", "done", "dismissed"];
 export const TASK_PRIORITIES = ["low", "medium", "high", "critical"];

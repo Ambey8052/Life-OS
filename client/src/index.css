@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;1,500&family=Caveat:wght@600;700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -38,6 +38,31 @@ body {
 
 .font-serif-display {
   font-family: "Newsreader", Georgia, serif;
+}
+
+.font-hand {
+  font-family: "Caveat", "Segoe Print", "Comic Sans MS", cursive;
+}
+
+/* ── Sticky notes (Inbox Brief action wall) ─────────────────────────────── */
+.sticky-paper {
+  background: linear-gradient(170deg, #fef3c7 0%, #fde68a 55%, #fcd34d 130%);
+  color: #1c1917;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.25),
+    0 10px 18px -8px rgba(0, 0, 0, 0.55);
+}
+
+.sticky-tape {
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(1px);
+}
+
+.cork-board {
+  background-color: #14181d;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 18px 18px;
 }
 
 /* Browsers default placeholders to a light-background gray that is unreadable

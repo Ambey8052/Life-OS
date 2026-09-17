@@ -95,3 +95,34 @@ export function fromNoteInput(data) {
   if ("linkedOpportunityId" in data) row.linked_opportunity_id = data.linkedOpportunityId;
   return row;
 }
+
+function gmailUrl(messageId, accountEmail) {
+  if (!/^[A-Za-z0-9]+$/.test(messageId || "")) return null;
+  const account = accountEmail ? `?authuser=${encodeURIComponent(accountEmail)}` : "";
+  return `https://mail.google.com/mail/${account}#all/${messageId}`;
+}
+
+export function toInsightDTO(row, accountEmail) {
+  return {
+    _id: row.id,
+    gmailMessageId: row.gmail_message_id,
+    gmailUrl: gmailUrl(row.gmail_message_id, accountEmail),
+    fromName: row.from_name,
+    fromEmail: row.from_email,
+    subject: row.subject,
+    receivedAt: row.received_at,
+    summary: row.summary,
+    category: row.category,
+    importance: row.importance,
+    actionRequired: row.action_required,
+    action: row.action,
+    dueDate: row.due_date,
+    eventDate: row.event_date,
+    keyDetails: row.key_details || [],
+    status: row.status,
+    pinned: row.pinned,
+    taskId: row.task_id,
+    opportunityId: row.opportunity_id,
+    createdAt: row.created_at,
+  };
+}

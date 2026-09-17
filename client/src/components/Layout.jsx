@@ -18,13 +18,17 @@ import {
   LogOut,
   Menu,
   X,
+  Mail,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const NAV_GROUPS = [
   {
     label: "Overview",
-    items: [{ to: "/dashboard", label: "Today's Focus", icon: Flame, end: true }],
+    items: [
+      { to: "/dashboard", label: "Today's Focus", icon: Flame, end: true },
+      { to: "/inbox", label: "Inbox Brief", icon: Mail },
+    ],
   },
   {
     label: "Opportunities",

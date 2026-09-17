@@ -4,12 +4,15 @@ import { pingSupabase } from "./config/supabase.js";
 
 const PORT = process.env.PORT || 5000;
 
-pingSupabase()
-  .then(() => {
-    console.log("Supabase connected");
-    app.listen(PORT, () => console.log(`LifeOS server listening on port ${PORT}`));
-  })
-  .catch((err) => {
-    console.error("Failed to connect to Supabase:", err.message);
-    process.exit(1);
-  });
+app.listen(PORT, () => {
+  console.log(`LifeOS server listening on port ${PORT}`);
+  pingSupabase()
+    .then(() => {
+      console.log("Supabase connected successfully");
+    })
+    .catch((err) => {
+      console.warn("Warning: Supabase connection failed on startup:", err.message);
+      console.warn("Server is running, but database operations will fail until valid Supabase credentials and network connectivity are established.");
+    });
+});
+

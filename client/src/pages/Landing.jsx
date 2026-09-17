@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Compass, Target, Flame, Bell, Lock, Bot, BarChart3, ArrowRight } from "lucide-react";
+import { Compass, Target, Flame, Mail, Lock, Bot, BarChart3, ArrowRight } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/ui/Button";
 
@@ -17,9 +17,9 @@ const MODULES = [
     desc: "Deadline urgency, interview proximity and follow-ups combine into a single score.",
   },
   {
-    icon: Bell,
-    title: "Reminder Engine",
-    desc: "Never miss a deadline, interview or follow-up again.",
+    icon: Mail,
+    title: "Inbox Brief",
+    desc: "AI reads your Gmail and pins exam forms, fee dates and interviews to a sticky-note wall.",
   },
   {
     icon: Lock,

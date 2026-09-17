@@ -11,6 +11,8 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import noteRoutes from "./routes/noteRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
+import gmailRoutes from "./routes/gmailRoutes.js";
+import inboxRoutes from "./routes/inboxRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
@@ -33,6 +35,8 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/notes", noteRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/gmail", gmailRoutes);
+app.use("/api/inbox", inboxRoutes);
 
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 

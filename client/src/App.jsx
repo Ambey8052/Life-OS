@@ -5,6 +5,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import InboxBrief from "./pages/InboxBrief";
 import Opportunities from "./pages/Opportunities";
 import Applications from "./pages/Applications";
 import Tasks from "./pages/Tasks";
@@ -32,6 +33,7 @@ export default function App() {
         }
       >
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/inbox" element={<InboxBrief />} />
         <Route path="/opportunities" element={<Opportunities />} />
         <Route path="/applications" element={<Applications />} />
         <Route path="/tasks" element={<Tasks />} />

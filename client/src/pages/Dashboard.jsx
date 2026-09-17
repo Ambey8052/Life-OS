@@ -4,6 +4,7 @@ import { Flame } from "lucide-react";
 import { useDashboardToday } from "../hooks/useOpportunities";
 import { PRIORITY_STYLES, PRIORITY_ICON, PRIORITY_TEXT, formatDate, statusLabel } from "../constants";
 import Button from "../components/ui/Button";
+import InboxWidget from "../components/inbox/InboxWidget";
 import EmptyState from "../components/ui/EmptyState";
 import { SkeletonCards, SkeletonRows } from "../components/ui/Skeleton";
 
@@ -56,6 +57,8 @@ export default function Dashboard() {
         <StatCard label="Deadlines (7 days)" value={overview.upcomingDeadlines} />
         <StatCard label="Follow-ups Due" value={overview.pendingFollowUps} />
       </motion.div>
+
+      <InboxWidget />
 
       {BUCKET_ORDER.map(({ key, title }) => {
         const Icon = PRIORITY_ICON[key];
